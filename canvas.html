@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Drawing App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <h1 id="drawTitle">Drawing Time</h1>
+    <div class="controls">
+      <label>Color</label>
+      <input type="color" id="colorPicker" />
+      <label>Brush Size</label>
+      <input type="range" id="brushSize" min="1" max="50" value="5" />
+      <span id="sizeDisplay">5</span>
+    </div>
+    <div class="actions">
+      <button onclick="clearCanvas()" title="Clear"><span>🗑️</span></button>
+      <button onclick="undo()" title="Undo"><span>↩️</span></button>
+      <button onclick="redo()" title="Redo"><span>↪️</span></button>
+    </div>
+  </div>
+
+  <canvas id="canvas"></canvas>
+  <script src="script.js"></script>
+</body>
+</html>

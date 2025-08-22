@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - Drawing App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="login-page">
+  <div class="login-container glass">
+    <h2>Enter Drawing Settings</h2>
+    <form id="loginForm">
+      <input type="text" id="name" placeholder="Enter your name" required />
+      <label for="color">Brush Color</label>
+      <input type="color" id="color" />
+      <label for="size">Brush Size</label>
+      <input type="range" id="size" min="1" max="50" value="5" />
+      <span id="sizeDisplay">5</span>
+
+      <label class="toggle-switch">
+        <input type="checkbox" id="themeToggle" />
+        <span class="slider"></span>
+        <span class="mode-label">Dark Mode</span>
+      </label>
+
+      <button type="submit">Start Drawing</button>
+    </form>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

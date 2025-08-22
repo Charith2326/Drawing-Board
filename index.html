@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - Drawing App</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body with background image */
+    .login-page {
+      background: url('img.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Login form container */
+    .login-container {
+      width: 350px;
+      padding: 30px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.2);
+      color: #111;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container input,
+    .login-container button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .login-container button {
+      background: #4f46e5;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .toggle-switch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    /* Dark mode for login page (keeps background image visible) */
+    .dark-login .login-container {
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+    }
+  </style>
+</head>
+<body class="login-page">
+  <div class="login-container glass">
+    <h2>Enter Drawing Settings</h2>
+    <form id="loginForm">
+      <input type="text" id="name" placeholder="Enter your name" required />
+      <label for="color">Brush Color</label>
+      <input type="color" id="color" />
+      <label for="size">Brush Size</label>
+      <input type="range" id="size" min="1" max="50" value="5" />
+      <span id="sizeDisplay">5</span>
+
+      <label class="toggle-switch">
+        <input type="checkbox" id="themeToggle" />
+        <span class="slider"></span>
+        <span class="mode-label">Dark Mode</span>
+      </label>
+
+      <button type="submit">Start Drawing</button>
+    </form>
+  </div>
+
+  <script>
+    const sizeInput = document.getElementById('size');
+    const sizeDisplay = document.getElementById('sizeDisplay');
+    sizeInput.oninput = () => sizeDisplay.textContent = sizeInput.value;
+
+    const body = document.body;
+    const themeToggle = document.getElementById('themeToggle');
+
+    // Load saved dark mode preference
+    if (localStorage.getItem('loginDark') === 'true') {
+      body.classList.add('dark-login');
+      themeToggle.checked = true;
+    }
+
+    // Toggle dark mode on login page
+    themeToggle.addEventListener('change', function () {
+      body.classList.toggle('dark-login', this.checked);
+      localStorage.setItem('loginDark', this.checked);
+    });
+
+    // Save drawing settings on submit
+    document.getElementById('loginForm').onsubmit = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const color = document.getElementById('color').value;
+      const size = document.getElementById('size').value;
+      const isDark = themeToggle.checked;
+
+      localStorage.setItem('drawName', name);
+      localStorage.setItem('drawColor', color);
+      localStorage.setItem('drawSize', size);
+      localStorage.setItem('darkMode', isDark);
+      window.location.href = 'canvas.html';
+    };
+  </script>
+</body>
+</html>
