@@ -16,22 +16,36 @@ let paths = [];
 let currentPath = [];
 let undonePaths = [];
 
+// Get position for both mouse & touch
+function getPos(e) {
+  if (e.touches && e.touches.length > 0) {
+    return {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY - 70
+    };
+  }
+  return {
+    x: e.clientX,
+    y: e.clientY - 70
+  };
+}
+
 function start(e) {
   drawing = true;
   currentPath = [];
   draw(e);
+  e.preventDefault();
 }
 
 function draw(e) {
   if (!drawing) return;
 
-  const x = e.clientX;
-  const y = e.clientY - 70;
-
+  const { x, y } = getPos(e);
   ctx.lineTo(x, y);
   ctx.stroke();
 
   currentPath.push({ x, y, color: ctx.strokeStyle, size: ctx.lineWidth });
+  e.preventDefault();
 }
 
 function end() {
@@ -96,12 +110,18 @@ document.getElementById('brushSize').oninput = (e) => {
 const name = localStorage.getItem('drawName');
 document.getElementById('drawTitle').textContent = name ? `${name}'s Drawing Time` : "Drawing Time";
 
-// Apply Dark Mode if enabled
+// Apply Dark Mode
 if (localStorage.getItem('darkMode') === 'true') {
   document.body.classList.add('dark-mode');
 }
 
+// Mouse events
 canvas.addEventListener('mousedown', start);
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mouseup', end);
 canvas.addEventListener('mouseout', end);
+
+// Touch events for mobile
+canvas.addEventListener('touchstart', start, { passive: false });
+canvas.addEventListener('touchmove', draw, { passive: false });
+canvas.addEventListener('touchend', end);
